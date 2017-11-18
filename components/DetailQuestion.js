@@ -2,11 +2,13 @@ import React, { Component } from 'react'
 import { Text, View, TouchableOpacity, StyleSheet } from 'react-native'
 import { connect } from 'react-redux'
 import QuestionForm from './QuestionForm'
+import { NavigationActions } from 'react-navigation'
 
 class DetailQuestion extends Component {
   // ここにstaticを使うとnavigationで渡ってきた値を際適宜することができる
   // quiz_numを増やすことによって次のページに推移する
   // collect_answerで正解数をカウント
+  // react-navigationをインポートしてdispatchでstoreにアクセスするように変更
 
 
   // TODO: onPressをした際に条件分岐でcomponentの出し分けをしてしまっているのでボタンを押した時に, questionFormのviewを表示するようにする
@@ -23,8 +25,14 @@ class DetailQuestion extends Component {
     }
   }
 
+  startQuestion = (question, category) => {
+    this.setState({startQuestion: true})
+    this.props.navigation.navigate('QuestionForm', {question: question, category: category})
+  }
+
   render() {
     let { questionNum, startQuetion, collect_answer } = this.state
+    const { category } = this.props
     return(
       <View style={{flex: 1}}>
         <View style={{flex: 6, justifyContent: 'center', alignItems: 'center'}}>
@@ -35,19 +43,12 @@ class DetailQuestion extends Component {
         <View style={{flex: 4, justifyContent: 'center', alignItems: 'center'}}>
          { startQuetion === false &&
            <View>
-             <TouchableOpacity onPress={() => this.setState(
-               {startQuetion: true})}>
+             <TouchableOpacity onPress={() => this.startQuestion(this.props.quiz.questions, category)}>
                <Text style={[styles.start, {borderRadius: 4,
                                             borderWidth: 0.5,
                                             borderColor: 'black',padding: 20, color: 'black', margin: 5, width: 100}]}>start!!!!</Text>
              </TouchableOpacity>
            </View>
-          }
-         { startQuetion === true &&
-            <QuestionForm
-             question={this.props.quiz.questions}
-             navigation={this.props.navigation}
-            />
           }
           <TouchableOpacity onPress={() => this.props.navigation.navigate(
             'AddCard',
@@ -58,15 +59,6 @@ class DetailQuestion extends Component {
         </View>
       </View>
     )
-  }
-}
-
-function mapStateToProps(state, {navigation}) {
-  // debugger
-  const { category } = navigation.state.params
-  return {
-    category,
-    quiz: state.questions[category]
   }
 }
 
@@ -93,5 +85,14 @@ const styles = StyleSheet.create({
     color: 'black'
   }
 });
+
+function mapStateToProps(state, {navigation}) {
+  // debugger
+  const { category } = navigation.state.params
+  return {
+    category,
+    quiz: state.questions[category]
+  }
+}
 
 export default connect(mapStateToProps)(DetailQuestion)

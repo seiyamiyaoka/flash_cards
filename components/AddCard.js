@@ -27,6 +27,8 @@ class AddCard extends Component {
 
     this.props.dispatch(addQuestion(formatData))
     // AsyncStorageに登録
+    // debugger
+    this.props.navigation.goBack()
     // stateをからにする
   }
 
