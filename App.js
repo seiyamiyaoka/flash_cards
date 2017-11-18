@@ -7,6 +7,7 @@ import History from './components/History'
 import NewDeck from './components/NewDeck'
 import AddCard from './components/AddCard'
 import DetailQuestion from './components/DetailQuestion'
+import QuestionForm from './components/QuestionForm'
 import { TabNavigator, StackNavigator } from 'react-navigation'
 
 
@@ -35,6 +36,9 @@ const MainNavigator = StackNavigator({
   },
   AddCard: {
     screen: AddCard
+  },
+  QuestionForm: {
+    screen: QuestionForm
   }
 })
 
@@ -42,7 +46,7 @@ export default class App extends React.Component {
   render() {
     return (
       <Provider store={createStore(reducer)}>
-        <View style={{flex: 1}}>
+        <View style={styles.container}>
           <MainNavigator />
         </View>
       </Provider>
@@ -55,8 +59,5 @@ export default class App extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
   },
 });

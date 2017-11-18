@@ -15,13 +15,15 @@ function questions (state=[], action) {
         ...action.deck
       }
     case ADD_QUESTION:
-    debugger
-      state[action.question.category].questions.push(action.question.question)
+      // advise
+      // you should be able to use the spread operator. Something like this should work:
+      //  questions: [...state[action.question.category].questions, action.question.question]this
+      //  should "spread" the existing objects in a new array and append the new question to the end.
       return {
         ...state,
         [action.question.category]: {
           title: state[action.question.category].title,
-          questions: state[action.question.category].questions
+          questions: [...state[action.question.category].questions, action.question.question]
         },
       }
     default:

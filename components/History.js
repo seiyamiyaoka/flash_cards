@@ -16,15 +16,6 @@ class History extends Component {
   }
   render() {
     const { questions } = this.props
-    debugger
-    // if (Object.keys(questions).length > 0) {
-    //   // const keysAry = Object.keys(questions)
-    //   // keysAry.forEach(this.setQuestions(questions))
-    //   for(let k in questions) {
-    //     debugger
-    //     questions[k]
-    //   }
-    // }
     return (
       <View style={{flex: 1, justifyContent: 'center', alignItems: 'center' }}>
       { Object.keys(questions.questions).length !== 0
