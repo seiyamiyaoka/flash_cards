@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Text, TouchableOpacity, TextInput } from 'react-native'
+import { View, Text, TouchableOpacity, TextInput, StyleSheet } from 'react-native'
 import { connect } from 'react-redux'
 import { NavigationActions } from 'react-navigation'
 import { addDeck } from '../actions'
@@ -32,15 +32,16 @@ class NewDeck extends Component {
 
   render() {
     return(
-      <View>
-        <Text>What is the title of your new deck?</Text>
+      <View style={{alignItems: 'center'}}>
+        <Text style={deckStyle.title}>What is the title of your new deck?</Text>
         <TextInput
+         style={{ height: 40, borderColor: 'gray', borderWidth: 1, width: 300}}
          onChangeText={(text) => this.setState({text})}
          placeholder="Type here"
          value={this.state.text}
          />
         <TouchableOpacity onPress={() => this.submit(this.state.text)}>
-          <Text>Submit</Text>
+          <Text style={deckStyle.positiveButton}>Submit</Text>
         </TouchableOpacity>
       </View>
     )
@@ -52,5 +53,21 @@ function mapStateToProps(state) {
     state
   }
 }
+
+const deckStyle = StyleSheet.create({
+  title: {
+    textAlign: 'center',
+    fontSize: 24,
+    margin: 0,
+    fontWeight: 'bold'
+  },
+  positiveButton: {
+    color: 'white',
+    width: 100,
+    margin: 20,
+    padding: 20,
+    backgroundColor: 'green'
+  },
+})
 
 export default connect(mapStateToProps)(NewDeck)
