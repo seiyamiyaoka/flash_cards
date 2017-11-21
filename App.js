@@ -6,6 +6,7 @@ import reducer from './reducers'
 import History from './components/History'
 import NewDeck from './components/NewDeck'
 import AddCard from './components/AddCard'
+import { setLocalNotification } from './utils/helper'
 import DetailQuestion from './components/DetailQuestion'
 import QuestionForm from './components/QuestionForm'
 import { TabNavigator, StackNavigator } from 'react-navigation'
@@ -43,6 +44,9 @@ const MainNavigator = StackNavigator({
 })
 
 export default class App extends React.Component {
+  componentDidMount() {
+    return setLocalNotification()
+  }
   render() {
     return (
       <Provider store={createStore(reducer)}>
