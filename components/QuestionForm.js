@@ -64,7 +64,6 @@ class QuestionForm extends Component {
     )
   }
 
-
   questionHead = (questionNum, length) => {
     return (
       <View style={{marginLeft: 10, marginRight: 10}}>

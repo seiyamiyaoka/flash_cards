@@ -17,15 +17,18 @@ class NewDeck extends Component {
       [deck]: { title: deck, questions: [] }
     }))
 
-    this.toHome()
+    this.toIndivisualView(deck)
     createQuestionDeck({
       [deck]: { title: deck, questions: [] }
     })
     this.setState({text: ""})
   }
 
-  toHome = () => {
-    this.props.navigation.dispatch(NavigationActions.back({key: 'NewDeck'}))
+  toIndivisualView = (deckName) => {
+    this.props.navigation.dispatch(NavigationActions.navigate({
+      routeName: 'DetailQuestion',
+      params: { category: deckName }
+    }))
   }
 
   // 作成後にhomeに戻るボタン
