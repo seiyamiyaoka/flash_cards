@@ -41,7 +41,7 @@ class DetailQuestion extends Component {
          </Text>
         </View>
         <View style={{flex: 4, justifyContent: 'center', alignItems: 'center'}}>
-         { startQuetion === false &&
+         { this.props.quiz.questions.length > 0 && startQuetion === false &&
            <View>
              <TouchableOpacity onPress={() => this.startQuestion(this.props.quiz.questions, category)}>
                <Text style={[styles.start, {borderRadius: 4,
