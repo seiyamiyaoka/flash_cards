@@ -1,7 +1,8 @@
 import { combineReducers } from 'redux'
 import { RECEIVE_QUESTIONS, ADD_DECK, ADD_QUESTION } from '../actions'
+import { INITIAL_STATE } from './initData'
 
-function questions (state=[], action) {
+function questions (state=INITIAL_STATE, action) {
 
   switch (action.type) {
     case RECEIVE_QUESTIONS:
