@@ -5,7 +5,7 @@ import { Provider } from 'react-redux'
 import reducer from './reducers'
 import { setLocalNotification } from './utils/helper'
 import { MainNavigator } from './navigation/routes'
-import store  from './store'
+import store from './store'
 
 export default class App extends React.Component {
   componentDidMount() {

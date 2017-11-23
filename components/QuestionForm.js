@@ -45,6 +45,92 @@ class QuestionForm extends Component {
                    showAnswer: true})
     this.resetState()
   }
+
+  resultView = (style, state, question, navigation, category) => {
+    return (
+      <View style={{marginLeft: 10, marginRight: 10, marginTop: 40, alignItems: 'center'}}>
+          <Text style={style.mainContent}>{state.collect_answer / question.length * 100} parsent!!!</Text>
+          <TouchableOpacity onPress={() => navigation.navigate('Home')}>
+            <Text style={[style.negativeButton, {backgroundColor: 'green', width: 100, padding: 10 }]}>
+              back start
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate('DetailQuestion', {category: category})}>
+            <Text style={[style.negativeButton, {backgroundColor: 'purple', width: 100, padding: 10}]}>
+              restart quiz
+            </Text>
+          </TouchableOpacity>
+        </View>
+    )
+  }
+
+
+  questionHead = (questionNum, length) => {
+    return (
+      <View style={{marginLeft: 10, marginRight: 10}}>
+        <Text>{questionNum + 1} / { length }</Text>
+      </View>
+    )
+  }
+
+  questionTitle = (style, title) => {
+    return (
+      <View style={{height: 45, marginTop: 90, marginLeft: 10, marginRight: 10, alignItems: 'center', justifyContent: 'center'}}>
+        <Text style={style.mainContent}>
+          {title}
+        </Text>
+      </View>
+    )
+  }
+
+  questionShow = () => {
+    return (
+      <View style={{justifyContent: 'center', alignItems: 'center', marginTop: 30}}>
+        <TouchableOpacity onPress={() => this._show()}>
+          <Text style={{color: 'red'}}>show answer</Text>
+        </TouchableOpacity>
+      </View>
+    )
+  }
+
+  questionResult = (resultBool, answer) => {
+    return (
+      resultBool === true ? <View style={{alignItems: 'center'}}>
+                              <Text style={{color: 'blue'}}>collect! {answer}</Text>
+                            </View>
+                          : <View style={{alignItems: 'center'}}>
+                              <Text style={{color: 'red'}}>Incollect! Answer: {answer}</Text>
+                            </View>
+    )
+  }
+
+  questionNextAndShow = (answer) => {
+    return (
+      <View style={{alignItems: 'center'}}>
+        <TouchableOpacity onPress={() => this._incrementQuestion()}>
+          <Text style={{color: 'white', width: 100, margin: 20, padding: 20, backgroundColor: 'skyblue'}}>Next</Text>
+        </TouchableOpacity>
+        <Text>
+         {answer}
+        </Text>
+      </View>
+    )
+  }
+
+  questionAnswerButton = (style) => {
+    return (
+      <View style={{alignItems: 'center'}}>
+        <TouchableOpacity onPress={() => this._answer({ userAnswer: true })}>
+          <Text style={style.positiveButton}>Collect</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress={() => this._answer({ userAnswer: false })}>
+          <Text style={QuestionStyles.negativeButton}>InCollect</Text>
+        </TouchableOpacity>
+      </View>
+    )
+  }
+
   componentDidMount() {
     // debugger
     this.setState({answer: this.props.navigation.state.params.question[this.state.questionNum].answer,
@@ -60,73 +146,33 @@ class QuestionForm extends Component {
       showAnswer: false
     })
   }
+
   render() {
     const { question, category } = this.props.navigation.state.params
     const { navigation } = this.props
     let { questionNum } = this.state
+
     return(
       <View style={{flex: 1}}>
       { this.state.lsatQuestionAnsered === true
-          ? <View style={{marginLeft: 10, marginRight: 10, marginTop: 40, alignItems: 'center'}}>
-              <Text style={QuestionStyles.mainContent}>{this.state.collect_answer / question.length * 100} parsent!!!</Text>
-              <TouchableOpacity onPress={() => navigation.navigate('Home')}>
-                <Text style={[QuestionStyles.negativeButton, {backgroundColor: 'green', width: 100, padding: 10 }]}>back start</Text>
-              </TouchableOpacity>
-              <TouchableOpacity onPress={() => navigation.navigate('DetailQuestion', {category: category})}>
-                <Text style={[QuestionStyles.negativeButton, {backgroundColor: 'purple', width: 100, padding: 10}]}>restart quiz</Text>
-              </TouchableOpacity>
-            </View>
+          ? this.resultView(QuestionStyles, this.state, question, navigation, category)
           : <View style={{flex: 1}}>
-              <View style={{marginLeft: 10, marginRight: 10}}>
-                <Text>{this.state.questionNum + 1} / { question.length }</Text>
-              </View>
-              <View style={{height: 45, marginTop: 90, marginLeft: 10, marginRight: 10, alignItems: 'center', justifyContent: 'center'}}>
-                <Text style={QuestionStyles.mainContent}>
-                  {question[questionNum].question}
-                </Text>
-              </View>
+              { this.questionHead(this.state.questionNum, question.length) }
+              { this.questionTitle(QuestionStyles, question[questionNum].question) }
                 {this.state.hide === true && (
-                  <View style={{justifyContent: 'center', alignItems: 'center', marginTop: 30}}>
-                    <TouchableOpacity onPress={() => this._show()}>
-                      <Text style={{color: 'red'}}>show answer</Text>
-                    </TouchableOpacity>
-                  </View>
+                  this.questionShow()
                 )}
                 {this.state.hide === false &&(
-                  this.state.result === true
-                    ? <View style={{alignItems: 'center'}}>
-                        <Text style={{color: 'blue'}}>collect! {question[questionNum].answer}</Text>
-                      </View>
-                    : <View style={{alignItems: 'center'}}>
-                        <Text style={{color: 'red'}}>Incollect! Answer: {question[questionNum].answer}</Text>
-                      </View>
+                  this.questionResult(this.state.result, question[questionNum].answer)
                   )
                 }
-
                 {question.length !== this.state.questionNum && this.state.answered === true && this.state.showAnswer === true && (
-                  <View style={{alignItems: 'center'}}>
-                    <TouchableOpacity onPress={() => this._incrementQuestion()}>
-                      <Text style={{color: 'white', width: 100, margin: 20, padding: 20, backgroundColor: 'skyblue'}}>Next</Text>
-                    </TouchableOpacity>
-                    <Text>
-                     {question[questionNum].answer}
-                    </Text>
-                  </View>
+                  this.questionNextAndShow(question[questionNum].answer)
                 )}
                 { this.state.showAnswer === false && this.state.answered === false &&(
-                  <View style={{alignItems: 'center'}}>
-                    <TouchableOpacity onPress={() => this._answer({ userAnswer: true })}>
-                      <Text style={QuestionStyles.positiveButton}>Collect</Text>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity onPress={() => this._answer({ userAnswer: false })}>
-                      <Text style={QuestionStyles.negativeButton}>InCollect</Text>
-                    </TouchableOpacity>
-                  </View>
-
-                ) }
-
-
+                  this.questionAnswerButton(QuestionStyles)
+                )
+              }
               </View>
             }
           </View>
