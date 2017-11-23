@@ -4,7 +4,8 @@ import { createStore } from 'redux'
 import { Provider } from 'react-redux'
 import reducer from './reducers'
 import { setLocalNotification } from './utils/helper'
-import { MainNavigator } from './routes'
+import { MainNavigator } from './navigation/routes'
+import store  from './store'
 
 export default class App extends React.Component {
   componentDidMount() {
@@ -12,7 +13,7 @@ export default class App extends React.Component {
   }
   render() {
     return (
-      <Provider store={createStore(reducer)}>
+      <Provider store={store}>
         <View style={styles.container}>
           <MainNavigator />
         </View>

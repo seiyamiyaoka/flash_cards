@@ -1,8 +1,8 @@
-import History from './components/History'
-import NewDeck from './components/NewDeck'
-import AddCard from './components/AddCard'
-import DetailQuestion from './components/DetailQuestion'
-import QuestionForm from './components/QuestionForm'
+import History from '../components/History'
+import NewDeck from '../components/NewDeck'
+import AddCard from '../components/AddCard'
+import DetailQuestion from '../components/DetailQuestion'
+import QuestionForm from '../components/QuestionForm'
 import { TabNavigator, StackNavigator } from 'react-navigation'
 
 const Tabs = TabNavigator({
